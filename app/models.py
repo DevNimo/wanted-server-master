@@ -1,9 +1,10 @@
-from sqlalchemy import create_engine, Column, Integer, String, Text, Boolean, Float
-from sqlalchemy.orm import scoped_session, sessionmaker, declarative_base
+from sqlalchemy import Column, Integer, String, Text, Boolean, Float
+from sqlalchemy.orm import declarative_base
 
 Base = declarative_base()
+CompanyBase = Base
 
-class Company(Base):
+class Company(CompanyBase):
     __tablename__ = "company"
     company_code: int
     locate: str
