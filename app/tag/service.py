@@ -1,5 +1,4 @@
 from app.company.dao import companyDao
-from app.tag.dao import tagDao
 
 
 def get_auto_search_by_company_name(company_name, lang):
@@ -13,13 +12,11 @@ def get_auto_search_by_company_name(company_name, lang):
 
 
 def get_by_company_name(company_name, lang):
-    result = {
-        'tags':[]
-    }
+    result = []
     for company in companyDao.get_by_company_name(company_name, lang):
-        result['company_name'] = company.company_name
+        result.append({
+            'company_name': company.company_name
+        })
 
-    for tag_name in tagDao.get_by_company_name(company_name, lang):
-        result['tags'].append(tag_name.tag_name)
     return result
 

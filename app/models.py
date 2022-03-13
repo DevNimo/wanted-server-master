@@ -1,5 +1,5 @@
-from sqlalchemy import Column, Integer, String, Text, Boolean, Float
-from sqlalchemy.orm import declarative_base
+from sqlalchemy import Column, Integer, String, Text, Boolean, Float, ForeignKey
+from sqlalchemy.orm import declarative_base, relation
 
 Base = declarative_base()
 
@@ -7,29 +7,54 @@ Base = declarative_base()
 class Company(Base):
     __tablename__ = "company"
     company_code: int
-    locate: str
-    company_name: str
 
-    company_code = Column(Integer, primary_key=True)
-    locate = Column(String(10), primary_key=True)
-    company_name = Column(String(100), nullable=True, index=True)
+    company_code = Column(Integer, primary_key=True, autoincrement=True)
+    company_name = relation('CompanyName')
+    tag_name = relation('TagName')
 
     def __init__(self):
-        self.company_name = None
-        self.locate = None
+        self.company_code = None
+
+
+class CompanyName(Base):
+    __tablename__ = "company_name"
+    id: int
+    company_code: int
+    # language: str
+    company_name: str
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    company_code = Column(Integer, ForeignKey('company.company_code'))
+    language = Column(String(10), ForeignKey('lang.language'))
+    company_name = Column(String(100), nullable=True)
+
+    def __init__(self):
+        self.id = None
         self.company_name = None
 
-# class Tag(Base):
-#     company_code: int
-#     locate: str
-#     tag_name: str
-#
-#     company_code = db.Column(db.Integer, primary_key=True)
-#     locate = db.Column(db.String(10), primary_key=True)
-#     tag_name = db.Column(db.String(100), nullable=True, index=True)
-#
-#     parent = db.relationship("Company", back_populates="tags", lazy="joined", innerjoin=True)
-#
-#     __tablename__ = "tag"
-#     __table_args__ = {'mysql_collate': 'utf8_general_ci'}
 
+class Lang(Base):
+    __tablename__ = "lang"
+    language: str
+    language = Column(String(10), primary_key=True)
+
+    company_name = relation('CompanyName')
+    tag_name = relation('TagName')
+
+    def __init__(self):
+        self.language = None
+
+
+class TagName(Base):
+    __tablename__ = "tag_name"
+    id: int
+    company_code: int
+    tag_name: str
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    company_code = Column(Integer, ForeignKey('company.company_code'))
+    language = Column(String(10), ForeignKey('lang.language'))
+    tag_name = Column(String(100), nullable=True)
+
+    def __init__(self):
+        self.id = None
