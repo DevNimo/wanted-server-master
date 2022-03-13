@@ -1,7 +1,7 @@
 from flask import Flask
 from app.company.controller import company_api
 import config
-from app.company.dao import db
+from utils.database import db
 
 app = Flask(__name__)
 app.config.from_object(config)

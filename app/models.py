@@ -2,9 +2,9 @@ from sqlalchemy import Column, Integer, String, Text, Boolean, Float
 from sqlalchemy.orm import declarative_base
 
 Base = declarative_base()
-CompanyBase = Base
 
-class Company(CompanyBase):
+
+class Company(Base):
     __tablename__ = "company"
     company_code: int
     locate: str
