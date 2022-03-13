@@ -73,15 +73,9 @@ class Database(object):
 
 db = Database(SQLALCHEMY_DATABASE_URI, Base)
 
-import logging
-logging.basicConfig(format='%(asctime)s,%(msecs)d %(levelname)-8s [%(filename)s:%(lineno)d] %(message)s',
-    datefmt='%Y-%m-%d:%H:%M:%S',
-    level=logging.DEBUG)
-
 
 def check_new_language(lang):
     _lang = db.session().query(Lang.language).filter(Lang.language == lang).scalar()
-    logging.info(_lang)
     if _lang is None:
         new_lang = Lang()
         new_lang.language = lang
