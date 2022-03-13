@@ -1,4 +1,4 @@
-from sqlalchemy import and_
+from sqlalchemy import and_, func
 from app.models import *
 from utils.database import db, check_new_language, check_duplicate_tag_name
 
@@ -37,8 +37,9 @@ class TagDao:
     def delete_tag_by_company(self, company_name, tag_name, lang):
         company_code = self.db.session().query(CompanyName.company_code).filter(
             CompanyName.company_name == company_name).scalar()
+        tag_num = tag_name.split('_')[1]
         self.db.session.query(TagName).filter(and_(
-            TagName.tag_name.like("%{}%".format(tag_name.split('_')[1])),
+            func.substring_index(TagName.tag_name, '_', -1) == tag_num,
             TagName.company_code == company_code)).delete(synchronize_session='fetch')
         self.db.session.commit()
 
