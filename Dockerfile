@@ -8,5 +8,4 @@ ADD . /
 
 RUN pip install -r requirments.txt
 
-RUN chmod +x docker-entrypoint.sh
 ENTRYPOINT ["python", "run.py"]

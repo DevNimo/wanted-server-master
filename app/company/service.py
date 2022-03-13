@@ -23,3 +23,16 @@ def get_by_company_name(company_name, lang):
         result['tags'].append(tag_name.tag_name)
     return result
 
+
+def create_new_company(json_data, lang):
+    company_name = companyDao.new_company(json_data, lang)
+
+    result = {
+        'tags':[]
+    }
+    for company in companyDao.get_by_company_name(company_name, lang):
+        result['company_name'] = company.company_name
+
+    for tag_name in tagDao.get_by_company_name(company_name, lang):
+        result['tags'].append(tag_name.tag_name)
+    return result

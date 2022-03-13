@@ -1,23 +1,27 @@
-from flask import request, g, current_app
+from flask import request
 from flask.blueprints import Blueprint
 
-from app.company.service import get_auto_search_by_company_name, get_by_company_name
+from app.tag import service
 from utils.web_utils import process_api
 
 tag_api = Blueprint('tag_api', __name__)
 
 
-@tag_api.route('/tag', methods=['GET'])
+@tag_api.route('/tags', methods=['GET'])
 @process_api
-def get_company_search_by_tag_name(lang=None):
-    d = request.args.get('query')
-    print(d)
-    raise Exception
+def get_compnay_by_tag(lang=None):
+    tag_name = request.args.get('query')
+    return service.get_compnay_by_tag(tag_name, lang)
 
 
-@tag_api.route('/companies/<company_code>/tags', methods=['PUT'])
+@tag_api.route('/companies/<company_name>/tags', methods=['PUT'])
 @process_api
-def update_new_tag(lang=None):
-    json_data = g.json
-    raise Exception
+def update_new_tag(company_name, lang=None):
+    json_data = request.get_json()
+    return service.tag_update_by_company(company_name, json_data, lang)
 
+
+@tag_api.route('/companies/<company_name>/tags/<tag_name>', methods=['DELETE'])
+@process_api
+def delete_tag_by_company(company_name, tag_name, lang=None):
+    return service.tag_delete_by_company(company_name, tag_name, lang)

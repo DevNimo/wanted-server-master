@@ -26,7 +26,7 @@ class CompanyName(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     company_code = Column(Integer, ForeignKey('company.company_code'))
     language = Column(String(10), ForeignKey('lang.language'))
-    company_name = Column(String(100), nullable=True)
+    company_name = Column(String(500), nullable=True)
 
     def __init__(self):
         self.id = None
@@ -54,7 +54,7 @@ class TagName(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     company_code = Column(Integer, ForeignKey('company.company_code'))
     language = Column(String(10), ForeignKey('lang.language'))
-    tag_name = Column(String(100), nullable=True)
+    tag_name = Column(String(500), nullable=True)
 
     def __init__(self):
         self.id = None
