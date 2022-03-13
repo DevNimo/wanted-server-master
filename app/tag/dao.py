@@ -37,9 +37,11 @@ class TagDao:
     def delete_tag_by_company(self, company_name, tag_name, lang):
         company_code = self.db.session().query(CompanyName.company_code).filter(
             CompanyName.company_name == company_name).scalar()
-        tag_num = tag_name.split('_')[1]
+        tag_split = tag_name.split('_')
+        tag_split_len = len(tag_split)
+        tag_num = "_".join(tag_split[1:])
         self.db.session.query(TagName).filter(and_(
-            func.substring_index(TagName.tag_name, '_', -1) == tag_num,
+            func.substring_index(TagName.tag_name, '_', -(tag_split_len-1)) == tag_num,
             TagName.company_code == company_code)).delete(synchronize_session='fetch')
         self.db.session.commit()
 
