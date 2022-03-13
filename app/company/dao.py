@@ -10,5 +10,8 @@ class CompanyDao:
     def get_all(self):
         return self.db.session().query(Company).all()
 
+    def get_auto_search_by_company_name(self, company_name):
+        return self.db.session().query(Company).filter(Company.company_name.like("{}%".format(company_name))).all()
+
 
 companyDao = CompanyDao(db)

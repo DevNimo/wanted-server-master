@@ -30,7 +30,6 @@ class Database(object):
 
     def _parsing_csv(self):
         total_row_count = 0
-        company_list = []
         with open('/wanted_temp_data.csv', encoding='utf-8') as f:
             lines = list(csv.reader(f, delimiter=","))
             for row in lines:
@@ -47,4 +46,5 @@ class Database(object):
             self.session.commit()
 
 db = Database(SQLALCHEMY_DATABASE_URI, Base)
+
 

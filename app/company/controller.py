@@ -2,8 +2,6 @@ from flask import request, g, current_app
 from flask.blueprints import Blueprint
 
 from app.company.service import get_all_company_list
-from app.models import Company
-from utils.database import db
 from utils.web_utils import process_api
 
 company_api = Blueprint('company_api', __name__)
@@ -12,7 +10,8 @@ company_api = Blueprint('company_api', __name__)
 @company_api.route('/search', methods=['GET'])
 @process_api
 def get_company_name_autocomplete(lang=None):
-    return get_all_company_list(lang)
+    company_name = request.args.get('query')
+    return get_all_company_list(company_name, lang)
 
 
 @company_api.route('/companies/<company_code>', methods=['GET'])
