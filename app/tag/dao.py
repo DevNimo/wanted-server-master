@@ -42,7 +42,7 @@ class TagDao:
         tag_num = "_".join(tag_split[1:])
         self.db.session.query(TagName).filter(and_(
             func.substring_index(TagName.tag_name, '_', -(tag_split_len-1)) == tag_num,
-            TagName.company_code == company_code)).delete(synchronize_session='fetch')
+            TagName.company_code == company_code)).delete(synchronize_session='fetch')  # synchronize_session fetch
         self.db.session.commit()
 
 

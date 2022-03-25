@@ -75,7 +75,7 @@ db = Database(SQLALCHEMY_DATABASE_URI, Base)
 
 
 def check_new_language(lang):
-    _lang = db.session().query(Lang.language).filter(Lang.language == lang).scalar()
+    _lang = db.session().query(Lang.language).filter(Lang.language == lang).scalar()  # 첫째 행만 return 없으면 None
     if _lang is None:
         new_lang = Lang()
         new_lang.language = lang
@@ -87,6 +87,6 @@ def check_duplicate_tag_name(tag: TagName):
     _check = db.session().query(TagName).filter(and_(
         TagName.company_code == tag.company_code,
         TagName.language == tag.language,
-        TagName.tag_name == tag.tag_name)).scalar()
+        TagName.tag_name == tag.tag_name)).scalar()  # 첫째 행만 return 없으면 None
     return False if _check is None else True
 
